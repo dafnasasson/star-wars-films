@@ -1,9 +1,6 @@
-import React, { useState, useEffect } from 'react';
-import AppBar from '@material-ui/core/AppBar';
+import React, { useEffect } from 'react';
 import Button from '@material-ui/core/Button';
-import MovieFilterIcon from '@material-ui/icons/MovieFilter';
 import Grid from '@material-ui/core/Grid';
-import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
@@ -16,18 +13,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import StarIcon from '@material-ui/icons/Star';
-function Copyright() {
-	return (
-		<Typography variant="body2" color="textSecondary" align="center">
-			{'Copyright © '}
-			<Link color="inherit" href="https://material-ui.com/">
-				Your Website
-			</Link>{' '}
-			{new Date().getFullYear()}
-			{'.'}
-		</Typography>
-	);
-}
+import { Link as LinkRouter } from 'react-router-dom';
 
 //-----------------------------------//
 const StyledMenu = withStyles({
@@ -50,23 +36,7 @@ const StyledMenu = withStyles({
 	/>
 ));
 
-// const StyledMenuItem = withStyles((theme) => ({
-// 	root: {
-// 		'&:focus': {
-// 			backgroundColor: theme.palette.primary.main,
-// 			'& .MuiListItemIcon-root, & .MuiListItemText-primary': {
-// 				color: theme.palette.common.white
-// 			}
-// 		}
-// 	}
-// }))(MenuItem);
-
-//----------------------------------//
-
 const useStyles = makeStyles((theme) => ({
-	icon: {
-		marginRight: theme.spacing(2)
-	},
 	heroContent: {
 		backgroundColor: theme.palette.background.paper,
 		padding: theme.spacing(8, 0, 6)
@@ -92,10 +62,21 @@ const useStyles = makeStyles((theme) => ({
 	footer: {
 		backgroundColor: theme.palette.background.paper,
 		padding: theme.spacing(6)
+	},
+	favoriteBtn: {
+		display: 'flex',
+		justifyContent: 'flex-end',
+		position: 'absolute',
+		right: '0',
+		top: '0'
+	},
+	listItemTxt: {
+		textDecoration: 'none',
+		color: theme.palette.primary.dark
 	}
 }));
 
-export default function Album(props) {
+const FilmsCollection = (props) => {
 	const [ films, setFilms ] = React.useState([]);
 
 	const [ favFilms, setFavFilms ] = React.useState(JSON.parse(localStorage.getItem('favFilms')) || []);
@@ -111,6 +92,20 @@ export default function Album(props) {
 		setAnchorEl(null);
 	};
 
+	const shortenSummary = (summary, maxLen = 155) => {
+		if (summary.length <= maxLen) return summary;
+
+		const words = summary.split(' ');
+		let currLen = words.map((el) => el.length).reduce((sum, curr) => sum + curr, 0);
+
+		while (currLen > maxLen) {
+			const word = words.pop();
+			currLen -= word.length;
+		}
+
+		return words.join(' ') + '...';
+	};
+
 	const favoriteBtnClickHandler = (id) => {
 		let filmInd = favFilms.findIndex((fav) => fav.episode_id === id);
 		const favFilmsCpy = [ ...favFilms ];
@@ -118,18 +113,10 @@ export default function Album(props) {
 			favFilmsCpy.splice(filmInd, 1);
 		} else {
 			let film = films.find((film) => film.episode_id === id);
-			//console.log(film);
 			film = JSON.parse(JSON.stringify(film));
 			favFilmsCpy.push(film);
 		}
 		setFavFilms(favFilmsCpy);
-	};
-
-	const favoritesBtnHandler = () => {
-		props.history.push({
-			pathname: '/favorites',
-			query: { favFilms: favFilms }
-		});
 	};
 
 	useEffect(() => {
@@ -149,6 +136,20 @@ export default function Album(props) {
 		[ favFilms ]
 	);
 
+	const favoritesBtnHandler = () => {
+		props.history.push({
+			pathname: '/fullContent',
+			query: { favFilms: favFilms }
+		});
+	};
+	const readMoreBtnHandler = (id) => {
+		const film = films.find((film) => film.episode_id === id);
+		props.history.push({
+			pathname: '/fullContent',
+			query: { film: film }
+		});
+	};
+
 	let listOfAllfilmsToRender = films.map((film) => {
 		return (
 			<Grid item key={film.episode_id} xs={12} sm={6} md={4}>
@@ -157,9 +158,10 @@ export default function Album(props) {
 					title={film.title}
 					director={film.director}
 					release_date={film.release_date}
-					description={film.opening_crawl}
+					description={shortenSummary(film.opening_crawl)}
 					favoriteBtnClicked={() => favoriteBtnClickHandler(film.episode_id)}
 					isFavorite={favFilms.findIndex((favFilm) => favFilm.episode_id === film.episode_id) !== -1}
+					readMoreBtnClicked={() => readMoreBtnHandler(film.episode_id)}
 				/>
 			</Grid>
 		);
@@ -168,60 +170,63 @@ export default function Album(props) {
 	//-------------------------//
 	let listOfFavFilmsToRender = favFilms.map((film) => {
 		return (
-			<MenuItem key={film.episode_id}>
-				<ListItemIcon>
-					<StarIcon fontSize="small" />
-				</ListItemIcon>
-				<ListItemText primary={film.title} />
-			</MenuItem>
+			<LinkRouter
+				to={{
+					pathname: '/fullContent',
+					query: { film: film }
+				}}
+				key={film.episode_id}
+				className={classes.listItemTxt}
+			>
+				<MenuItem>
+					<ListItemIcon>
+						<StarIcon fontSize="small" />
+					</ListItemIcon>
+					<ListItemText primary={film.title} />
+				</MenuItem>
+			</LinkRouter>
 		);
 	});
 	//---------------------------//
 
 	return (
 		<React.Fragment>
-			{/* <CssBaseline/> */}
-			<AppBar position="relative">
-				<Toolbar>
-					<MovieFilterIcon className={classes.icon} />
-					<Typography variant="h6" color="inherit" noWrap>
-						Star Wars Films
-					</Typography>
-					<div>
-						<Button
-							aria-controls="customized-menu"
-							aria-haspopup="true"
-							variant="contained"
-							color="primary"
-							onClick={handleClick}
-						>
-							Favorites Films
-						</Button>
-						<StyledMenu
-							id="customized-menu"
-							anchorEl={anchorEl}
-							keepMounted
-							open={Boolean(anchorEl)}
-							onClose={handleClose}
-						>
-							{listOfFavFilmsToRender}
-						</StyledMenu>
-					</div>
-				</Toolbar>
-			</AppBar>
 			<main>
 				{/* Hero unit */}
 				<div className={classes.heroContent}>
 					<Container maxWidth="sm">
-						<Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
+						<Typography
+							component="h1"
+							variant="h2"
+							align="center"
+							color="textPrimary"
+							gutterBottom
+							onClick={handleClick}
+						>
 							Star Wars Films
 						</Typography>
 						<div className={classes.heroButtons}>
 							<Grid container spacing={2} justify="center">
 								<Grid item>
-									<Button variant="contained" color="primary" onClick={favoritesBtnHandler}>
-										Favorites
+									<Button
+										aria-controls="customized-menu"
+										aria-haspopup="true"
+										variant="contained"
+										color="primary"
+										onClick={handleClick}
+									>
+										Favorites Films
 									</Button>
+									<StyledMenu
+										id="customized-menu"
+										anchorEl={anchorEl}
+										keepMounted
+										open={Boolean(anchorEl)}
+										onClose={handleClose}
+									>
+										{listOfFavFilmsToRender}
+									</StyledMenu>
+									{/* <Button onClick={favoritesBtnHandler}>Favorites Films</Button> */}
 								</Grid>
 							</Grid>
 						</div>
@@ -237,14 +242,15 @@ export default function Album(props) {
 			{/* Footer */}
 			<footer className={classes.footer}>
 				<Typography variant="h6" align="center" gutterBottom>
-					Footer
+					Dafna Sasson
 				</Typography>
 				<Typography variant="subtitle1" align="center" color="textSecondary" component="p">
-					Something here to give the footer a purpose!
+					a STAR WARS fan!
 				</Typography>
-				<Copyright />
 			</footer>
 			{/* End footer */}
 		</React.Fragment>
 	);
-}
+};
+
+export default FilmsCollection;

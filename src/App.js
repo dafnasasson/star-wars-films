@@ -1,13 +1,15 @@
 import React from 'react';
-import Album from './components/Album';
-import Favorites from './components/Favorites';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import FilmsCollection from './components/FilmsCollection';
+import FilmFullContent from './components/FilmFullContent';
+import NavBar from './components/NavBar';
+import { BrowserRouter, Route } from 'react-router-dom';
 
 export default function App() {
 	return (
 		<BrowserRouter>
-			<Route exact path="/" component={Album} />
-			<Route path="/favorites" component={Favorites} />
+			<NavBar />
+			<Route exact path="/" component={FilmsCollection} />
+			<Route path="/fullContent" component={FilmFullContent} />
 		</BrowserRouter>
 	);
 }

@@ -8,6 +8,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
+import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 
 const useStyles = makeStyles((theme) => ({
 	card: {
@@ -47,16 +48,10 @@ const Film = (props) => {
 				</Typography>
 				<Typography>{props.description} </Typography>
 			</CardContent>
-			<CardActions>
-				{/* <Button
-          size="small"
-          color="primary"
-          onClick={() => props.favoriteBtnClicked(props.id)}
-        >
-          {props.isFavorite ? <FavoriteIcon /> : <FavoriteBorderIcon />}
-          {console.log(props.isFavorite)}
-        </Button> */}
-			</CardActions>
+			{/* <CardActions /> */}
+			<Button size="small" color="primary" onClick={props.readMoreBtnClicked}>
+				<MoreHorizIcon />
+			</Button>
 		</Card>
 	);
 };
