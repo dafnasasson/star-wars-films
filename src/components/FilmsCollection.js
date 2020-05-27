@@ -46,8 +46,6 @@ const useStyles = makeStyles((theme) => ({
 		marginRight: theme.spacing(4),
 		position: 'flex',
 		justifyContent: 'flex-end',
-		// right: '10px',
-		// top: '0',
 		zIndex: '1'
 	},
 	filmGrid: {
@@ -192,7 +190,6 @@ const FilmsCollection = (props) => {
 		});
 	}
 
-	//-------------------------//
 	let listOfFavFilmsToRender = favFilms.map((film) => {
 		return (
 			<LinkRouter
@@ -212,7 +209,6 @@ const FilmsCollection = (props) => {
 			</LinkRouter>
 		);
 	});
-	//---------------------------//
 
 	let mainContent = (
 		<main>
