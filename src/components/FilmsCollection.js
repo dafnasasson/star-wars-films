@@ -4,9 +4,7 @@ import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import Link from '@material-ui/core/Link';
 import Film from './Film';
-
 import { withStyles } from '@material-ui/core/styles';
 import Menu from '@material-ui/core/Menu';
 import MenuItem from '@material-ui/core/MenuItem';
@@ -64,25 +62,51 @@ const useStyles = makeStyles((theme) => ({
 		padding: theme.spacing(6)
 	},
 	favoriteBtn: {
-		display: 'flex',
-		justifyContent: 'flex-end',
-		position: 'absolute',
-		right: '0',
-		top: '0'
+		border: '1px solid',
+		lineHeight: 1.5,
+		// backgroundColor: '#FFE81F',
+		borderColor: '#1C1B1E',
+		color: 'white',
+		textShadow: '-1px -1px 0 #1C1B1E, 1px -1px 0 #1C1B1E , -1px 1px 0 #1C1B1E ,1px 1px 0 #1C1B1E ',
+		letterSpacing: '2px',
+		fontSize: '25px'
 	},
 	listItemTxt: {
 		textDecoration: 'none',
 		color: theme.palette.primary.dark
+	},
+	icon: {
+		color: '#FFE81F'
+	},
+	menuItem: {
+		backgroundColor: '#1C1B1E',
+		color: 'white'
 	}
 }));
 
 const FilmsCollection = (props) => {
 	const [ films, setFilms ] = React.useState([]);
-
 	const [ favFilms, setFavFilms ] = React.useState(JSON.parse(localStorage.getItem('favFilms')) || []);
 	const classes = useStyles();
 
 	const [ anchorEl, setAnchorEl ] = React.useState(null);
+
+	useEffect(() => {
+		fetch('https://swapi.dev/api/films')
+			.then((response) => {
+				return response.json();
+			})
+			.then((data) => {
+				setFilms(data.results);
+			});
+	}, []);
+
+	React.useEffect(
+		() => {
+			localStorage.setItem('favFilms', JSON.stringify(favFilms));
+		},
+		[ favFilms ]
+	);
 
 	const handleClick = (event) => {
 		setAnchorEl(event.currentTarget);
@@ -119,29 +143,6 @@ const FilmsCollection = (props) => {
 		setFavFilms(favFilmsCpy);
 	};
 
-	useEffect(() => {
-		fetch('https://swapi.dev/api/films')
-			.then((response) => {
-				return response.json();
-			})
-			.then((data) => {
-				setFilms(data.results);
-			});
-	}, []);
-
-	React.useEffect(
-		() => {
-			localStorage.setItem('favFilms', JSON.stringify(favFilms));
-		},
-		[ favFilms ]
-	);
-
-	const favoritesBtnHandler = () => {
-		props.history.push({
-			pathname: '/fullContent',
-			query: { favFilms: favFilms }
-		});
-	};
 	const readMoreBtnHandler = (id) => {
 		const film = films.find((film) => film.episode_id === id);
 		props.history.push({
@@ -178,9 +179,9 @@ const FilmsCollection = (props) => {
 				key={film.episode_id}
 				className={classes.listItemTxt}
 			>
-				<MenuItem>
+				<MenuItem className={classes.menuItem}>
 					<ListItemIcon>
-						<StarIcon fontSize="small" />
+						<StarIcon className={classes.icon} fontSize="small" />
 					</ListItemIcon>
 					<ListItemText primary={film.title} />
 				</MenuItem>
@@ -195,24 +196,18 @@ const FilmsCollection = (props) => {
 				{/* Hero unit */}
 				<div className={classes.heroContent}>
 					<Container maxWidth="sm">
-						<Typography
-							component="h1"
-							variant="h2"
-							align="center"
-							color="textPrimary"
-							gutterBottom
-							onClick={handleClick}
-						>
+						<Typography component="h1" variant="h2" align="center" color="textPrimary" gutterBottom>
 							Star Wars Films
 						</Typography>
 						<div className={classes.heroButtons}>
 							<Grid container spacing={2} justify="center">
 								<Grid item>
 									<Button
+										className={classes.favoriteBtn}
 										aria-controls="customized-menu"
 										aria-haspopup="true"
 										variant="contained"
-										color="primary"
+										variant="outlined"
 										onClick={handleClick}
 									>
 										Favorites Films
@@ -226,7 +221,6 @@ const FilmsCollection = (props) => {
 									>
 										{listOfFavFilmsToRender}
 									</StyledMenu>
-									{/* <Button onClick={favoritesBtnHandler}>Favorites Films</Button> */}
 								</Grid>
 							</Grid>
 						</div>

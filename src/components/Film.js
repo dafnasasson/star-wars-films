@@ -1,11 +1,9 @@
 import React from 'react';
 import Button from '@material-ui/core/Button';
 import Card from '@material-ui/core/Card';
-import CardActions from '@material-ui/core/CardActions';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
 import { makeStyles } from '@material-ui/core/styles';
-
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
@@ -48,7 +46,6 @@ const Film = (props) => {
 				</Typography>
 				<Typography>{props.description} </Typography>
 			</CardContent>
-			{/* <CardActions /> */}
 			<Button size="small" color="primary" onClick={props.readMoreBtnClicked}>
 				<MoreHorizIcon />
 			</Button>
