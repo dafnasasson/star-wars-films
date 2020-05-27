@@ -7,6 +7,8 @@ import { makeStyles } from '@material-ui/core/styles';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
+import Divider from '@material-ui/core/Divider';
+import Box from '@material-ui/core/Box';
 
 const useStyles = makeStyles((theme) => ({
 	card: {
@@ -17,9 +19,16 @@ const useStyles = makeStyles((theme) => ({
 	cardDirector: {
 		marginBottom: '2em'
 	},
-	favIcon: {
+	cardTitle: {
 		display: 'flex',
-		justifyContent: 'space-between'
+		justifyContent: 'space-between',
+		marginBottom: '0'
+	},
+	divider: {
+		marginLeft: '0',
+		marginTop: '0',
+		marginBottom: '1em',
+		width: '75%'
 	}
 }));
 
@@ -32,24 +41,29 @@ const Film = (props) => {
 	);
 
 	return (
-		<Card className={classes.card}>
-			<CardContent className={classes.cardContent}>
-				<Typography className={classes.favIcon} gutterBottom variant="h5" component="h2">
-					{props.title}
-					<Button size="small" color="primary" onClick={() => props.favoriteBtnClicked(props.id)}>
-						{favoriteIcon}
-					</Button>
-				</Typography>
-				<Typography variant="subtitle2">Release Date: {props.release_date}</Typography>
-				<Typography variant="subtitle2" className={classes.cardDirector}>
-					Director: {props.director}
-				</Typography>
-				<Typography>{props.description} </Typography>
-			</CardContent>
-			<Button size="small" color="primary" onClick={props.readMoreBtnClicked}>
-				<MoreHorizIcon />
-			</Button>
-		</Card>
+		<Box boxShadow={6}>
+			<Card className={classes.card}>
+				<CardContent className={classes.cardContent}>
+					<Typography className={classes.cardTitle} gutterBottom variant="h5" component="h2">
+						{props.title}
+						<Button size="small" color="primary" onClick={() => props.favoriteBtnClicked(props.id)}>
+							{favoriteIcon}
+						</Button>
+					</Typography>
+					<Divider variant="middle" className={classes.divider} />
+					<Typography variant="subtitle2" style={{ letterSpacing: '1px' }}>
+						RELEASE DATE: {props.release_date}
+					</Typography>
+					<Typography variant="subtitle2" className={classes.cardDirector} style={{ letterSpacing: '1px' }}>
+						DIRECTOR: {props.director.toUpperCase()}
+					</Typography>
+					<Typography>{props.description} </Typography>
+				</CardContent>
+				<Button size="small" color="primary" onClick={props.readMoreBtnClicked}>
+					<MoreHorizIcon />
+				</Button>
+			</Card>
+		</Box>
 	);
 };
 

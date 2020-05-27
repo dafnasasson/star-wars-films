@@ -11,7 +11,7 @@ const useStyles = makeStyles((theme) => ({
 	},
 	toolbar: {
 		display: 'flex',
-		backgroundColor: '#1c1b1e',
+		backgroundColor: '#262626',
 		justifyContent: 'space-between'
 	},
 	logo: {
@@ -19,10 +19,15 @@ const useStyles = makeStyles((theme) => ({
 		alignItems: 'center'
 	},
 	logoText: {
+		fontFamily: 'Orbitron',
 		color: 'black',
-		textShadow: '-1px -1px 0 #FFE81F, 1px -1px 0 #FFE81F , -1px 1px 0 #FFE81F ,1px 1px 0 #FFE81F ',
+		textShadow: '-0.5px -0.5px 0 #FFE81F, 0.5px 0.5px 0 #FFE81F , -0.5px 0.5px 0 #FFE81F ,0.5px 0.5px 0 #FFE81F ',
 		textTransform: 'uppercase',
-		letterSpacing: '1px'
+		letterSpacing: '2px',
+		fontSize: '20px'
+	},
+	appBar: {
+		zIndex: '0'
 	}
 }));
 
@@ -30,7 +35,7 @@ const NavBar = (props) => {
 	const classes = useStyles();
 
 	return (
-		<AppBar position="relative">
+		<AppBar position="relative" className={classes.appBar}>
 			<Toolbar className={classes.toolbar}>
 				<div className={classes.logo}>
 					<MovieFilterIcon className={classes.icon} />
