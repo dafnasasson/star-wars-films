@@ -15,7 +15,6 @@ import { Link as LinkRouter } from 'react-router-dom';
 import { shadows } from '@material-ui/system';
 import Spinner from './Spinner/Spinner';
 
-//-----------------------------------//
 const StyledMenu = withStyles({
 	paper: {
 		border: '1px solid #d3d4d5'
@@ -51,17 +50,6 @@ const useStyles = makeStyles((theme) => ({
 	filmGrid: {
 		paddingTop: theme.spacing(8),
 		paddingBottom: theme.spacing(8)
-	},
-	card: {
-		height: '100%',
-		display: 'flex',
-		flexDirection: 'column'
-	},
-	cardMedia: {
-		paddingTop: '56.25%' // 16:9
-	},
-	cardContent: {
-		flexGrow: 1
 	},
 	footer: {
 		backgroundColor: theme.palette.background.paper,
@@ -212,7 +200,6 @@ const FilmsCollection = (props) => {
 
 	let mainContent = (
 		<main>
-			{/* Hero unit */}
 			<div className={classes.heroButtons}>
 				<Grid container spacing={2} justify="flex-end">
 					<Grid item>
@@ -253,7 +240,6 @@ const FilmsCollection = (props) => {
 				</Container>
 			</div>
 			<Container className={classes.filmGrid} maxWidth="lg">
-				{/* End hero unit */}
 				<Grid container spacing={4}>
 					{listOfAllfilmsToRender}
 				</Grid>

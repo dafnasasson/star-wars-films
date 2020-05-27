@@ -8,19 +8,8 @@ import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 import Spinner from './Spinner/Spinner';
 
 const useStyles = makeStyles({
-	root: {
-		minWidth: 275
-	},
-	bullet: {
-		display: 'inline-block',
-		margin: '0 2px',
-		transform: 'scale(0.8)'
-	},
 	title: {
 		fontSize: 14
-	},
-	pos: {
-		marginBottom: 12
 	}
 });
 
@@ -57,18 +46,10 @@ const FilmFullContent = (props) => {
 					<CardContent className={classes.cardContent}>
 						<Typography variant="subtitle2">Title: {film.title}</Typography>
 						<Typography variant="subtitle2">Release Date: {film.release_date}</Typography>
-						<Typography variant="subtitle2" className={classes.cardDirector}>
-							Director: {film.director}
-						</Typography>
-						<Typography variant="subtitle2" className={classes.cardDirector}>
-							Producer: {film.producer}
-						</Typography>
-						<Typography variant="subtitle2" className={classes.cardDirector}>
-							Characters: {characters}
-						</Typography>
-						<Typography variant="subtitle2" className={classes.cardDirector}>
-							Summary:
-						</Typography>
+						<Typography variant="subtitle2">Director: {film.director}</Typography>
+						<Typography variant="subtitle2">Producer: {film.producer}</Typography>
+						<Typography variant="subtitle2">Characters: {characters}</Typography>
+						<Typography variant="subtitle2">Summary:</Typography>
 						<Typography>{film.opening_crawl} </Typography>
 					</CardContent>
 				</Card>
