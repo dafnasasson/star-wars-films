@@ -5,7 +5,7 @@ Build and Run instructions below.
 This is an app that allows the user to select his favorite STAR WARS movies.
 The application componenets includes:
 
--FilmsCollection:
+#### `-FilmsCollection`:
 The component fetches details of STAR WARS movies via the API: swapi.dev and present them to the user.
 The user can choose his favorite movies by pressing the "like" button next to each movie 
 and to click on the '...' icon to see the full details of the movie. This feature was implemented using 'react-router-dom'.
