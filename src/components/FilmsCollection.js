@@ -178,7 +178,7 @@ const FilmsCollection = (props) => {
 		});
 	}
 
-	let listOfFavFilmsToRender = favFilms.map((film) => {
+	const listOfFavFilmsToRender = favFilms.map((film) => {
 		return (
 			<LinkRouter
 				to={{
