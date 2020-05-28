@@ -12,7 +12,6 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import StarIcon from '@material-ui/icons/Star';
 import { Link as LinkRouter } from 'react-router-dom';
-import { shadows } from '@material-ui/system';
 import Spinner from './Spinner/Spinner';
 
 const StyledMenu = withStyles({
@@ -158,6 +157,7 @@ const FilmsCollection = (props) => {
 			query: { film: film }
 		});
 	};
+
 	let listOfAllfilmsToRender = <Spinner />;
 	if (films.length) {
 		listOfAllfilmsToRender = films.map((film) => {
@@ -198,70 +198,66 @@ const FilmsCollection = (props) => {
 		);
 	});
 
-	let mainContent = (
-		<main>
-			<div className={classes.heroButtons}>
-				<Grid container spacing={2} justify="flex-end">
-					<Grid item>
-						<Button
-							className={classes.favoriteBtn}
-							aria-controls="customized-menu"
-							aria-haspopup="true"
-							variant="contained"
-							variant="outlined"
-							onClick={handleClick}
-						>
-							my Favorites
-						</Button>
-						<StyledMenu
-							id="customized-menu"
-							anchorEl={anchorEl}
-							keepMounted
-							open={Boolean(anchorEl)}
-							onClose={handleClose}
-						>
-							{listOfFavFilmsToRender}
-						</StyledMenu>
-					</Grid>
-				</Grid>
-			</div>
-			<div className={classes.heroContent}>
-				<Container maxWidth="md">
-					<Typography
-						component="h1"
-						className={classes.collectionPageTitle}
-						variant="h2"
-						align="center"
-						color="textPrimary"
-						gutterBottom
-					>
-						STAR WARS FILMS
-					</Typography>
-				</Container>
-			</div>
-			<Container className={classes.filmGrid} maxWidth="lg">
-				<Grid container spacing={4}>
-					{listOfAllfilmsToRender}
-				</Grid>
-			</Container>
-		</main>
-	);
-
-	const footer = (
-		<footer className={classes.footer}>
-			<Typography variant="h6" align="center" gutterBottom>
-				Dafna Sasson
-			</Typography>
-			<Typography variant="subtitle1" align="center" color="textSecondary" component="p">
-				a STAR WARS fan!
-			</Typography>
-		</footer>
-	);
-
 	return (
 		<React.Fragment>
-			{mainContent}
-			{footer}
+			{/* Main */}
+			<main>
+				<div className={classes.heroButtons}>
+					<Grid container spacing={2} justify="flex-end">
+						<Grid item>
+							<Button
+								className={classes.favoriteBtn}
+								aria-controls="customized-menu"
+								aria-haspopup="true"
+								variant="contained"
+								variant="outlined"
+								onClick={handleClick}
+							>
+								my Favorites
+							</Button>
+							<StyledMenu
+								id="customized-menu"
+								anchorEl={anchorEl}
+								keepMounted
+								open={Boolean(anchorEl)}
+								onClose={handleClose}
+							>
+								{listOfFavFilmsToRender}
+							</StyledMenu>
+						</Grid>
+					</Grid>
+				</div>
+				<div className={classes.heroContent}>
+					<Container maxWidth="md">
+						<Typography
+							component="h1"
+							className={classes.collectionPageTitle}
+							variant="h2"
+							align="center"
+							color="textPrimary"
+							gutterBottom
+						>
+							STAR WARS FILMS
+						</Typography>
+					</Container>
+				</div>
+				<Container className={classes.filmGrid} maxWidth="lg">
+					<Grid container spacing={4}>
+						{listOfAllfilmsToRender}
+					</Grid>
+				</Container>
+			</main>
+			{/* End Main */}
+			{/* Footer */}
+			<footer className={classes.footer}>
+				<Typography variant="h6" align="center" gutterBottom>
+					Dafna Sasson
+				</Typography>
+				<Typography variant="subtitle1" align="center" color="textSecondary" component="p">
+					a STAR WARS fan!
+				</Typography>
+			</footer>
+			{/* End Footer */}
 		</React.Fragment>
 	);
 };
