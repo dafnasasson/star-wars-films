@@ -1,8 +1,7 @@
 import React from 'react';
 import AppBar from '@material-ui/core/AppBar';
-import MovieFilterIcon from '@material-ui/icons/MovieFilter';
 import Toolbar from '@material-ui/core/Toolbar';
-import Typography from '@material-ui/core/Typography';
+import logo from '../assets/starwars-logo.svg';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles((theme) => ({
@@ -16,15 +15,8 @@ const useStyles = makeStyles((theme) => ({
 	},
 	logo: {
 		display: 'flex',
-		alignItems: 'center'
-	},
-	logoText: {
-		fontFamily: 'Orbitron',
-		color: 'black',
-		textShadow: '-0.5px -0.5px 0 #FFE81F, 0.5px 0.5px 0 #FFE81F , -0.5px 0.5px 0 #FFE81F ,0.5px 0.5px 0 #FFE81F ',
-		textTransform: 'uppercase',
-		letterSpacing: '2px',
-		fontSize: '20px'
+		alignItems: 'center',
+		height: '4em'
 	},
 	appBar: {
 		zIndex: '0'
@@ -38,10 +30,7 @@ const NavBar = (props) => {
 		<AppBar position="relative" className={classes.appBar}>
 			<Toolbar className={classes.toolbar}>
 				<div className={classes.logo}>
-					<MovieFilterIcon className={classes.icon} />
-					<Typography className={classes.logoText} variant="h6" color="inherit" noWrap>
-						Star Wars
-					</Typography>
+					<img className={classes.logo} src={logo} alt="star wars logo" />
 				</div>
 			</Toolbar>
 		</AppBar>
